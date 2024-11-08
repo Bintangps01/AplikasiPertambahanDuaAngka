@@ -64,6 +64,12 @@ public class PertambahanDuaAngkaFrame extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 153, 153));
         jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        angkaPertama.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                angkaPertamaMouseEntered(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -91,12 +97,27 @@ public class PertambahanDuaAngkaFrame extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 153, 153));
 
         tombolTambah.setText("Tambah");
+        tombolTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tombolTambahActionPerformed(evt);
+            }
+        });
         jPanel3.add(tombolTambah);
 
         tombolHapus.setText("Hapus");
+        tombolHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tombolHapusActionPerformed(evt);
+            }
+        });
         jPanel3.add(tombolHapus);
 
         tombolKeluar.setText("Keluar");
+        tombolKeluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tombolKeluarActionPerformed(evt);
+            }
+        });
         jPanel3.add(tombolKeluar);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -131,6 +152,37 @@ public class PertambahanDuaAngkaFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tombolTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolTambahActionPerformed
+        try {
+            int nomorPertama = Integer.parseInt(angkaPertama.getText());
+            int nomorKedua = Integer.parseInt(angkaKedua.getText());
+
+            // Logika Pertambahan
+            int hasilTambah = nomorPertama + nomorKedua;
+
+            // Update Hasil
+            hasil.setText(String.valueOf(hasilTambah));
+        } catch (NumberFormatException e) {
+            // Validasi Input Numerik
+            hasil.setText("Input Tidak Valid!");
+        }
+    }//GEN-LAST:event_tombolTambahActionPerformed
+
+    private void tombolHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolHapusActionPerformed
+        //Menghapus semua angka
+        angkaPertama.setText("");
+        angkaKedua.setText("");
+        hasil.setText("");
+    }//GEN-LAST:event_tombolHapusActionPerformed
+
+    private void angkaPertamaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_angkaPertamaMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_angkaPertamaMouseEntered
+
+    private void tombolKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolKeluarActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_tombolKeluarActionPerformed
 
     /**
      * @param args the command line arguments
