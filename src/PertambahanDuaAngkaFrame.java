@@ -1,3 +1,9 @@
+import javax.swing.JOptionPane;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -14,6 +20,37 @@ public class PertambahanDuaAngkaFrame extends javax.swing.JFrame {
      */
     public PertambahanDuaAngkaFrame() {
         initComponents();
+        
+        // Apply the filter to angkaPertama and angkaKedua (jTextField1 and jTextField2)
+        ((AbstractDocument) angkaPertama.getDocument()).setDocumentFilter(new NumericFilter());
+        ((AbstractDocument) angkaKedua.getDocument()).setDocumentFilter(new NumericFilter());
+    }
+    
+    public class NumericFilter extends DocumentFilter {
+        @Override
+        public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+            if (string.matches("\\d+")) { // Hanya Memperbolehkan Angka
+                super.insertString(fb, offset, string, attr);
+            }
+        }
+
+        @Override
+        public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+            if (text.matches("\\d+")) { // Hanya Memperbolehkan Angka
+                super.replace(fb, offset, length, text, attrs);
+            }
+        }
+    }
+    
+    public class EmptyFilter extends DocumentFilter {
+        @Override
+        public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+            super.insertString(fb, offset, string, attr);
+        }
+        @Override
+        public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+            super.replace(fb, offset, length, text, attrs);
+        }
     }
 
     /**
@@ -26,6 +63,7 @@ public class PertambahanDuaAngkaFrame extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jOptionPane1 = new javax.swing.JOptionPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         hasil = new javax.swing.JTextField();
@@ -65,6 +103,11 @@ public class PertambahanDuaAngkaFrame extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 153, 153));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
+        angkaPertama.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                angkaPertamaFocusGained(evt);
+            }
+        });
         angkaPertama.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 angkaPertamaMouseEntered(evt);
@@ -83,6 +126,12 @@ public class PertambahanDuaAngkaFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         jPanel2.add(jLabel2, gridBagConstraints);
+
+        angkaKedua.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                angkaKeduaFocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -164,16 +213,24 @@ public class PertambahanDuaAngkaFrame extends javax.swing.JFrame {
             // Update Hasil
             hasil.setText(String.valueOf(hasilTambah));
         } catch (NumberFormatException e) {
-            // Validasi Input Numerik
-            hasil.setText("Input Tidak Valid!");
+            // Validasi Input
+            jOptionPane1.showMessageDialog(this, "Input Tidak Valid!", "Error Input", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_tombolTambahActionPerformed
 
     private void tombolHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolHapusActionPerformed
-        //Menghapus semua angka
+        // Nonaktifkan filter sementara
+        ((AbstractDocument) angkaPertama.getDocument()).setDocumentFilter(new EmptyFilter());
+        ((AbstractDocument) angkaKedua.getDocument()).setDocumentFilter(new EmptyFilter());
+
+        // Menghapus semua angka
         angkaPertama.setText("");
         angkaKedua.setText("");
         hasil.setText("");
+
+        // Kembalikan filter angka
+        ((AbstractDocument) angkaPertama.getDocument()).setDocumentFilter(new NumericFilter());
+        ((AbstractDocument) angkaKedua.getDocument()).setDocumentFilter(new NumericFilter());
     }//GEN-LAST:event_tombolHapusActionPerformed
 
     private void angkaPertamaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_angkaPertamaMouseEntered
@@ -183,6 +240,32 @@ public class PertambahanDuaAngkaFrame extends javax.swing.JFrame {
     private void tombolKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolKeluarActionPerformed
         System.exit(0);
     }//GEN-LAST:event_tombolKeluarActionPerformed
+
+    private void angkaPertamaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_angkaPertamaFocusGained
+        // Nonaktifkan filter sementara
+        ((AbstractDocument) angkaPertama.getDocument()).setDocumentFilter(new EmptyFilter());
+        ((AbstractDocument) angkaKedua.getDocument()).setDocumentFilter(new EmptyFilter());
+
+        // Menghapus semua angka
+        angkaPertama.setText("");
+
+        // Kembalikan filter angka
+        ((AbstractDocument) angkaPertama.getDocument()).setDocumentFilter(new NumericFilter());
+        ((AbstractDocument) angkaKedua.getDocument()).setDocumentFilter(new NumericFilter());
+    }//GEN-LAST:event_angkaPertamaFocusGained
+
+    private void angkaKeduaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_angkaKeduaFocusGained
+       // Nonaktifkan filter sementara
+        ((AbstractDocument) angkaPertama.getDocument()).setDocumentFilter(new EmptyFilter());
+        ((AbstractDocument) angkaKedua.getDocument()).setDocumentFilter(new EmptyFilter());
+
+        // Menghapus semua angka
+        angkaKedua.setText("");
+
+        // Kembalikan filter angka
+        ((AbstractDocument) angkaPertama.getDocument()).setDocumentFilter(new NumericFilter());
+        ((AbstractDocument) angkaKedua.getDocument()).setDocumentFilter(new NumericFilter());
+    }//GEN-LAST:event_angkaKeduaFocusGained
 
     /**
      * @param args the command line arguments
@@ -226,6 +309,7 @@ public class PertambahanDuaAngkaFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
