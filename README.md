@@ -4,7 +4,7 @@
 Sebuah aplikasi yang dapat digunakan untuk menambahkan dua angka, yang ditujukan untuk menyelesaikan Latihan PBO ke-1.
 
 #### Source Code PertambahanDuaAngkaFrame.java
-```
+```java
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
@@ -335,6 +335,10 @@ public class PertambahanDuaAngkaFrame extends javax.swing.JFrame {
 - Membatasi Input Hanya Angka
 - Penggunaan jOptionPane untuk menampilkan Error
 - FocusListener untuk membersihkan jTextField
+
+## Screenshot
+![{1ED3EC87-7480-413A-BD36-9ACB301D3905}](https://github.com/user-attachments/assets/81b7c3f0-e74a-4d8b-abec-93e64a3cef85)
+
 ## Referensi
 
  - [Modul PBO2 Latihan 1](https://drive.google.com/file/d/10mkXd3knafqlVHasSnW21GtvKcK_xnpa/view)
